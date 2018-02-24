@@ -7,7 +7,7 @@ const authMiddleware = require('../../middlewares/auth');
 
 router.use('/auth', auth);
 
-router.use('/school', authMiddleware);
+// router.use('/school', authMiddleware);
 router.use('/school', school);
 
 module.exports = router;

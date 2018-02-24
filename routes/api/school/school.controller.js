@@ -26,3 +26,15 @@ exports.school = (req, res) => {
 		message: req.decoded._id
 	})
 }
+
+exports.getSchoolList = (req, res) => {
+	conn.query(
+		'SELECT * FROM Schools',
+		(err, result) => {
+			if(err) throw err;
+			return res.status(200).json({
+					schools: result
+				})
+		}
+	)
+}
