@@ -32,7 +32,7 @@ exports.getCouponImageList = (req, res) => {
 exports.getCouponReviewList = (req, res) => {
   const { coupon_id } = req.params;
   conn.query(
-    'select * from Reviews where coupon_id = ?',
+    'select * from Reviews join Users where coupon_id = ? and Users.id = Reviews.user_id',
     [coupon_id],
     (err, result) => {
       if (err) throw err;
