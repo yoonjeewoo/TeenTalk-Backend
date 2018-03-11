@@ -52,3 +52,16 @@ exports.writePost = (req, res) => {
 		}
 	)
 }
+
+exports.getBoard = (req, res) => {
+	conn.query(
+		'SELECT * FROM Posts WHERE school_id = ?',
+		[req.decoded.school_id],
+		(err, result) => {
+			if (err) throw err;
+			return res.status(200).json({
+				result
+			})
+		}
+	)
+}
