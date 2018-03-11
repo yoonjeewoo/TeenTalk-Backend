@@ -33,7 +33,8 @@ exports.register = (req, res) => {
 								jwt.sign(
 								{
 									_id: result.insertId,
-									email: email
+									email: email,
+									school_id: school_id
 								},
 								secret,
 								{
@@ -76,7 +77,8 @@ exports.login = (req, res) => {
 				jwt.sign(
 					{
 						_id: result[0].id,
-						email: result[0].email
+						email: result[0].email,
+						school_id: result[0].school_id
 					},
 					secret,
 					{

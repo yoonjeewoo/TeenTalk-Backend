@@ -38,3 +38,17 @@ exports.getSchoolList = (req, res) => {
 		}
 	)
 }
+
+exports.writePost = (req, res) => {
+	const { content } = req.body;
+	conn.query(
+		'INSERT INTO Posts(content, school_id, user_id) VALUES (?, ?, ?)',
+		[content, req.decoded.school_id, req.decoded._id],
+		(err, result) => {
+			if (err) throw err;
+			return res.status(200).json({
+				'message' : '포스트 작성 완료'
+			})
+		}
+	)
+}

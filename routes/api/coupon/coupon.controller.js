@@ -5,7 +5,7 @@ const conn = mysql.createConnection(config);
 
 exports.getCouponList = (req, res) => {
   conn.query(
-    'select * from Coupons',
+    'SELECT * FROM Coupons',
     (err, result) => {
       if(err) throw err;
       return res.status(200).json({
@@ -18,7 +18,7 @@ exports.getCouponList = (req, res) => {
 exports.getCouponImageList = (req, res) => {
   const { coupon_id } = req.params;
   conn.query(
-    'select * from Images where coupon_id = ?',
+    'SELECT * FROM Images WHERE coupon_id = ?',
     [coupon_id],
     (err, result) => {
       if (err) throw err;
@@ -32,7 +32,7 @@ exports.getCouponImageList = (req, res) => {
 exports.getCouponReviewList = (req, res) => {
   const { coupon_id } = req.params;
   conn.query(
-    'select * from Reviews join Users where coupon_id = ? and Users.id = Reviews.user_id',
+    'SELECT * FROM Reviews JOIN Users WHERE coupon_id = ? AND Users.id = Reviews.user_id',
     [coupon_id],
     (err, result) => {
       if (err) throw err;
