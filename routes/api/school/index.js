@@ -7,7 +7,7 @@ router.get('', controller.getSchoolList);
 router.get('/board', controller.getBoard);
 router.post('/board', controller.writePost);
 // router.delete('/board', controller.deletePost);
-// router.get('/board/:post_id', controller.getPost);
+router.get('/board/:post_id', controller.getPost);
 
 
 module.exports = router;
