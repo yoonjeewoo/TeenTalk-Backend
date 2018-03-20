@@ -81,9 +81,32 @@ exports.getPost = (req, res) => {
 	)
 }
 
+exports.createComment = (req, res) => {
+	const { post_id, content } = req.body;
+	const d = new Date();
+	d.setUTCHours(d.getUTCHours());
+	conn.query(
+		'INSERT INTO Comments(content, school_id, user_id, post_id, created_at) VALUES(?, ?, ?, ?, ?)',
+		[content, req.decoded.school_id, req.decoded._id, post_id, d],
+		(err, result) => {
+			if (err) throw err;
+			return res.status(200).json({
+				result
+			})
+		}
+	)
+}
+
 exports.getCommentList = (req, res) => {
 	const { post_id } = req.params;
 	conn.query(
-
+		'SELECT * FROM Comments WHERE post_id = ?',
+		[post_id],
+		(err, result) => {
+			if (err) throw err;
+			return res.status(200).json({
+				result
+			})
+		}
 	)
 }
