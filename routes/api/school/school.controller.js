@@ -100,7 +100,7 @@ exports.createComment = (req, res) => {
 exports.getCommentList = (req, res) => {
 	const { post_id } = req.params;
 	conn.query(
-		'SELECT * FROM Comments WHERE post_id = ?',
+		'SELECT Comments.id, content, Comments.school_id, username, created_at FROM Comments join Users on Comments.user_id = Users.id WHERE Comments.post_id = ?',
 		[post_id],
 		(err, result) => {
 			if (err) throw err;
