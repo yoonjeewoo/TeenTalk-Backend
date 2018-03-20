@@ -41,9 +41,11 @@ exports.getSchoolList = (req, res) => {
 
 exports.writePost = (req, res) => {
 	const { content } = req.body;
+	const d = new Date();
+	d.setUTCHours(d.getUTCHours());
 	conn.query(
-		'INSERT INTO Posts(content, school_id, user_id) VALUES (?, ?, ?)',
-		[content, req.decoded.school_id, req.decoded._id],
+		'INSERT INTO Posts(content, school_id, user_id, created_at) VALUES (?, ?, ?, ?)',
+		[content, req.decoded.school_id, req.decoded._id, d],
 		(err, result) => {
 			if (err) throw err;
 			return res.status(200).json({
