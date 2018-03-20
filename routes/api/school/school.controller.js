@@ -57,7 +57,7 @@ exports.writePost = (req, res) => {
 
 exports.getBoard = (req, res) => {
 	conn.query(
-		'SELECT * FROM Posts WHERE school_id = ?',
+		'SELECT * FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id',
 		[req.decoded.school_id],
 		(err, result) => {
 			if (err) throw err;
@@ -78,5 +78,12 @@ exports.getPost = (req, res) => {
 				result
 			})
 		}
+	)
+}
+
+exports.getCommentList = (req, res) => {
+	const { post_id } = req.params;
+	conn.query(
+
 	)
 }
