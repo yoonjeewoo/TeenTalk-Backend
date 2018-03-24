@@ -90,23 +90,8 @@ exports.createCoupon = (req, res) => {
     [title, sub_title, location, address_detail, tel, work_time, coupon_title, closed, longitude, latitude],
     (err, result) => {
       if (err) throw err;
-      return res.status(200).json({
-        picandtag_input(result, pic_list);
-      })
+      picandtag_input(result, pic_list);
     }
   )
 }
 
-// exports.createCoupon = (req, res) => {
-//   const { title, sub_title, location, address_detail, tel, work_time, coupon_title, closed, longitude, latitude } = req.body;
-//   conn.query(
-//     'INSERT INTO Coupons(title, sub_title, location, address_detail, tel, work_time, coupon_title, closed, longitude, latitude) VALUES (?,?,?,?,?,?,?,?,?,?)',
-//     [title, sub_title, location, address_detail, tel, work_time, coupon_title, closed, longitude, latitude],
-//     (err, result) => {
-//       if (err) throw err;
-//       return res.status(200).json({
-//         result
-//       })
-//     }
-//   )
-// }
