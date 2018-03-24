@@ -23,8 +23,8 @@ app.use(function(req, res, next) {
 	next();
 });
 // parse JSON and url-encoded query
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
 
 app.get('/', (req, res) => {
