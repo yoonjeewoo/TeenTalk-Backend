@@ -48,8 +48,8 @@ exports.createCoupon = (req, res) => {
 
   let pic_input = (result, pic, index) => {
     return new Promise((resolve, reject) => {
-      // const d = new Date();
-      // d.setUTCHours(d.getUTCHours() + 9);
+      const d = new Date();
+      d.setUTCHours(d.getUTCHours() + 9);
       const picKey = d.getFullYear() + '_'
         + d.getMonth() + '_'
         + d.getDate() + '_'
