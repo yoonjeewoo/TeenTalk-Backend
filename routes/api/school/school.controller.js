@@ -114,3 +114,32 @@ exports.likePost = (req, res) => {
 		}
 	)
 }
+
+exports.updateComment = (req, res) => {
+	const { comment_id } = req.params;
+	const { content } = req.body;
+	conn.query(
+		'UPDATE Comments SET content = ? WHERE id = ?',
+		[content, comment_id],
+		(err, result) => {
+			if (err) throw err;
+			return res.status(200).json({
+				message: 'successfully updated comment'
+			})
+		}
+	)
+}
+
+exports.deleteComment = (req, res) => {
+	const { comment_id } = req.params;
+	conn.query(
+		'DELETE Comments WHERE id = ?',
+		[comment_id],
+		(err, result) => {
+			if (err) throw err;
+			return res.status(200).json({
+				message: 'successfully deleted comment'
+			})
+		}
+	)
+}

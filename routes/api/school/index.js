@@ -12,5 +12,7 @@ router.post('/board/like/:post_id', controller.likePost);
 
 router.post('/board/comment', controller.createComment);
 router.get('/board/comment/:post_id', controller.getCommentList);
+router.put('/board/comment/:comment_id', controller.updateComment);
+router.delete('/board/comment/:comment_id', controller.deleteComment);
 
 module.exports = router;
