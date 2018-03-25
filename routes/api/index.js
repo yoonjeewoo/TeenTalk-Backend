@@ -19,7 +19,4 @@ router.use('/coupon', coupon);
 router.use('/user', authMiddleware);
 router.use('/user', user);
 
-
-
-
 module.exports = router;

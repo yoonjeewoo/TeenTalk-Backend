@@ -100,3 +100,17 @@ exports.getCommentList = (req, res) => {
 		}
 	)
 }
+
+exports.likePost = (req, res) => {
+	const { post_id } = req.params;
+	conn.query(
+		'UPDATE Posts SET like_cnt = like_cnt+1 WHERE id = ?',
+		[post_id],
+		(err, result) => {
+			if (err) throw err;
+			return res.status(200).json({
+				message: 'successfully liked post'
+			})
+		}
+	)
+}
