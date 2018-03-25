@@ -133,7 +133,7 @@ exports.updateComment = (req, res) => {
 exports.deleteComment = (req, res) => {
 	const { comment_id } = req.params;
 	conn.query(
-		'DELETE Comments WHERE id = ?',
+		'DELETE from Comments WHERE id = ?',
 		[comment_id],
 		(err, result) => {
 			if (err) throw err;
