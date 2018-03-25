@@ -47,7 +47,7 @@ exports.writePost = (req, res) => {
 
 exports.getBoard = (req, res) => {
 	conn.query(
-		'SELECT Posts.id, content, username, created_at FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id',
+		'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id',
 		[req.decoded.school_id],
 		(err, result) => {
 			if (err) throw err;
