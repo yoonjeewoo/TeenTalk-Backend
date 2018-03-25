@@ -6,7 +6,7 @@ const conn = mysql.createConnection(config);
 
 exports.register = (req, res) => {
 	const secret = req.app.get('jwt-secret');
-	const { username, email, password, gender, birth, class_, school_name } = req.body;
+	const { username, email, password, gender, birth, class_, class_num, school_name } = req.body;
 	const encrypted = crypto.createHmac('sha1', config.secret)
 		.update(password)
 		.digest('base64');
@@ -25,8 +25,8 @@ exports.register = (req, res) => {
 					if (err) throw err;
 					if (rows.length == 0) {
 						conn.query(
-							'INSERT INTO Users(username, password, email, gender, birth, class, school_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
-							[username, encrypted, email, gender, birth, class_, school_id],
+							'INSERT INTO Users(username, password, email, gender, birth, class, class_num, school_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+							[username, encrypted, email, gender, birth, class_, class_num, school_id],
 							(err, result) => {
 								if (err) throw err;
 								console.log(result);

@@ -46,9 +46,10 @@ exports.writePost = (req, res) => {
 }
 
 exports.getBoard = (req, res) => {
+	const { class_ } = req.params;
 	conn.query(
-		'SELECT Posts.id, content, username, like_cnt, class, created_at FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id',
-		[req.decoded.school_id],
+		'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id and class=?',
+		[req.decoded.school_id, class_],
 		(err, result) => {
 			if (err) throw err;
 			return res.status(200).json({
