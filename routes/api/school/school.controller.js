@@ -47,8 +47,12 @@ exports.writePost = (req, res) => {
 
 exports.getBoard = (req, res) => {
 	const { class_ } = req.params;
+	sql = 'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id and class=?';
+	if (class_ == 0) {
+		sql = 'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id'
+	}
 	conn.query(
-		'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id and class=?',
+		sql
 		[req.decoded.school_id, class_],
 		(err, result) => {
 			if (err) throw err;
