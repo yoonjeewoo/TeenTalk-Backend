@@ -18,7 +18,7 @@ exports.getMyAccountInfo = (req, res) => {
 
 exports.getMyPosts = (req, res) => {
   conn.query(
-    'SELECT count(*) from Posts where user_id = ?',
+    'SELECT count(*) as cnt from Posts where user_id = ?',
     [req.decoded._id],
     (err, result) => {
       if (err) throw err;
@@ -31,7 +31,7 @@ exports.getMyPosts = (req, res) => {
 
 exports.getMyLikes = (req, res) => {
   conn.query(
-    'SELECT sum(like_cnt) from Posts where user_id = ?',
+    'SELECT sum(like_cnt) as cnt from Posts where user_id = ?',
     [req.decoded._id],
     (err, result) => {
       if (err) throw err;
@@ -44,7 +44,7 @@ exports.getMyLikes = (req, res) => {
 
 exports.getMyReviews = (req, res) => {
   conn.query(
-    'SELECT count(*) from Comments where user_id = ?',
+    'SELECT count(*) as cnt from Comments where user_id = ?',
     [req.decoded._id],
     (err, result) => {
       if (err) throw err;
