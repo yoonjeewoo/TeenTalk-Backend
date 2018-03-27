@@ -5,6 +5,7 @@ const coupon = require('./coupon');
 const school = require('./school');
 const user = require('./user');
 const notoken = require('./notoken');
+const admin = require('./admin');
 const authMiddleware = require('../../middlewares/auth');
 
 router.use('/auth', auth);
@@ -18,5 +19,8 @@ router.use('/coupon', coupon);
 
 router.use('/user', authMiddleware);
 router.use('/user', user);
+
+router.use('/admin', authMiddleware);
+router.use('/admin', admin);
 
 module.exports = router;
