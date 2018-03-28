@@ -29,6 +29,7 @@ exports.school = (req, res) => {
 
 exports.writePost = (req, res) => {
 	const { pic_list, content } = req.body;
+	console.log(pic_list);
 	const d = new Date();
 	d.setUTCHours(d.getUTCHours());
 	
