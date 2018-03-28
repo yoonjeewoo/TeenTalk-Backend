@@ -50,6 +50,20 @@ exports.deleteCouponReview = (req, res) => {
   )
 }
 
+exports.getCouponByType = (req, res) => {
+  const { type } = req.params;
+  conn.query(
+    'SELECT * FROM Coupon WHERE type = ?',
+    [type],
+    (err, result) => {
+      if (err) throw err;
+      return res.status(200).json({
+        result
+      })
+    }
+  )
+}
+
 
 exports.getCouponImageList = (req, res) => {
   const { coupon_id } = req.params;
