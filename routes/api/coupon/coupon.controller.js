@@ -53,7 +53,7 @@ exports.deleteCouponReview = (req, res) => {
 exports.getCouponByType = (req, res) => {
   const { type } = req.params;
   conn.query(
-    'SELECT * FROM Coupon WHERE type = ?',
+    'SELECT * FROM Coupons WHERE type = ?',
     [type],
     (err, result) => {
       if (err) throw err;
