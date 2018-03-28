@@ -103,6 +103,20 @@ exports.getBoard = (req, res) => {
 	)
 }
 
+exports.getPostPicture = (req, res) => {
+	const { post_id } = req.params;
+	conn.query(
+		'SELECT * FROM Post_Images WHERE post_id = ?',
+		[post_id],
+		(err, result) => {
+			if (err) throw err;
+			return res.status(200).json({
+				result
+			})
+		}
+	)
+}
+
 exports.getPost = (req, res) => {
 	conn.query(
 		'SELECT * FROM Posts WHERE school_id = ? and id = ?',
