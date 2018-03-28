@@ -145,3 +145,16 @@ exports.createCoupon = (req, res) => {
   )
 }
 
+exports.couponSearch = (req, res) => {
+  const { q } = req.params;
+  conn.query(
+    `SELECT * FROM Coupons WHERE title like '%${q}%' or sub_title like '%${q}%' or location like '%${q}%'`,
+    (err, result) => {
+      if (err) throw err;
+      return res.status(200).json({
+        result
+      })
+    }
+  )
+}
+

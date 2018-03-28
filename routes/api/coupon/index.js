@@ -10,4 +10,6 @@ router.get('/type/:type', controller.getCouponByType);
 router.post('/review/:coupon_id', controller.createCouponReview);
 router.delete('/review/:coupon_id', controller.deleteCouponReview);
 
+router.get('/search/:q', controller.couponSearch);
+
 module.exports = router;
