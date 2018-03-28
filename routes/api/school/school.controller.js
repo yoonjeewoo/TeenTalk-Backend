@@ -3,6 +3,10 @@ const mysql = require('mysql');
 const config = require('../../../config');
 const conn = mysql.createConnection(config);
 const lineReader = require('line-reader');
+const AWS = require('aws-sdk');
+AWS.config.region = 'ap-northeast-2';
+const s3 = new AWS.S3();
+const crypto = require("crypto");
 
 exports.school = (req, res) => {
 	// lineReader.eachLine('school_list.txt', function(line, last) {
