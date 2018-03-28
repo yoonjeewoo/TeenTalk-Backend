@@ -19,6 +19,38 @@ exports.getCouponList = (req, res) => {
   )
 }
 
+exports.createCouponReview = (req, res) => {
+  const { coupon_id } = req.params;
+  const { contents, score } = req.body;
+  const d = new Date();
+  d.setUTCHours(d.getUTCHours() + 9);
+  conn.query(
+    'INSERT INTO Reviews(user_id, coupon_id, contents, written_at, score) VALUES(?, ?, ?, ?, ?)',
+    [req.decoded._id, coupon_id, contents, d, score],
+    (err, result) => {
+      if (err) throw err;
+      return res.status(200).json({
+        result
+      })
+    }
+  )
+}
+
+exports.deleteCouponReview = (req, res) => {
+  const { coupon_id } = req.params;
+  conn.query(
+    'DELETE from Reviews WHERE coupon_id = ?',
+    [coupon_id],
+    (err, result) => {
+      if (err) throw err;
+      return res.status(200).json({
+        message: 'successfully deleted review'
+      })
+    }
+  )
+}
+
+
 exports.getCouponImageList = (req, res) => {
   const { coupon_id } = req.params;
   conn.query(
