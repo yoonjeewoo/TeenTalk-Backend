@@ -202,3 +202,17 @@ exports.deleteComment = (req, res) => {
 		}
 	)
 }
+
+exports.postSearch = (req, res) => {
+	const { q } = req.params;
+	conn.query(
+		`SELECT * FROM Posts WHERE content like '%${q}%' and school_id = ?`,
+		[req.decoded.school_id],
+		(err, result) => {
+			if (err) throw err;
+			return res.status(200).json({
+				result
+			})
+		}
+	)
+}

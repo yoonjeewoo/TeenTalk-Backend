@@ -16,5 +16,6 @@ router.put('/board/comment/:comment_id', controller.updateComment);
 router.delete('/board/comment/:comment_id', controller.deleteComment);
 
 router.get('/board/pic/:post_id', controller.getPostPicture);
+router.get('/board/search/:q', controller.postSearch);
 
 module.exports = router;
