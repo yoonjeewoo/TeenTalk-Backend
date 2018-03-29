@@ -3,6 +3,9 @@ const crypto = require('crypto');
 const mysql = require('mysql');
 const config = require('../../../config');
 const conn = mysql.createConnection(config);
+const nodemailer = require('nodemailer');
+const smtpPool = require('nodemailer-smtp-pool');
+
 
 exports.register = (req, res) => {
 	const secret = req.app.get('jwt-secret');
@@ -96,3 +99,43 @@ exports.login = (req, res) => {
 		}
 	)
 };
+
+exports.emailVerification = (req, res) => {
+	const { email } = req.body;
+	const random_verify = Math.floor(Math.random() * 1000000) + 1;
+	var smtpTransport = nodemailer.createTransport(smtpPool({
+		service: 'Gmail',
+		host: 'localhost',
+		port: '465',
+		tls: {
+			rejectUnauthorize: false
+		},
+
+		//이메일 전송을 위해 필요한 인증정보
+
+		//gmail 계정과 암호 
+		auth: {
+			user: 'yoonjeewoo@likelion.org',
+			pass: 'y1081615'
+		},
+		maxConnections: 5,
+		maxMessages: 10
+	}));
+
+	var mailOpt = {
+		from: 'yoonjeewoo@likelion.org',
+		to: 'wldnthsus@naver.com',
+		subject: '틴트 인증번호',
+		html: `<h1>${random_verify}</h1>`
+	}
+	smtpTransport.sendMail(mailOpt, function (err, res) {
+		if (err) {
+			throw err;
+		} else {
+			smtpTransport.close();	
+		}
+	})
+	return res.status(200).json({
+		message: random_verify
+	})
+}
