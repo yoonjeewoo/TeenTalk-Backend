@@ -124,7 +124,7 @@ exports.emailVerification = (req, res) => {
 
 	var mailOpt = {
 		from: 'yoonjeewoo@likelion.org',
-		to: 'wldnthsus@naver.com',
+		to: email,
 		subject: '틴트 인증번호',
 		html: `<h1>${random_verify}</h1>`
 	}
