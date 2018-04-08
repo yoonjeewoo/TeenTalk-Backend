@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
 
 app.get('/', (req, res) => {
-	res.send('alive');
+	res.send('Tint-Backend');
 });
 // print the request log on console
 app.use(morgan(':remote-addr'), function(req, res, next) {
