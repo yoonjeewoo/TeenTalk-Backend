@@ -7,17 +7,40 @@ AWS.config.region = 'ap-northeast-2';
 const s3 = new AWS.S3();
 const crypto = require("crypto");
 
+
+function toRad(value) {
+  return value * Math.PI / 180;
+}
+function calculateDist(lat1, lng1, lat2, lng2) {
+  let R = 6371;
+  let dLat = toRad(lat2 - lat1);
+  let dLng = toRad(lng2 - lng1);
+  let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2))
+    * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+  let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  let d = R * c;
+  return d;
+}
+
+
 exports.getCouponList = (req, res) => {
+  const { lng, lat } = req.query;
   conn.query(
     'SELECT * FROM Coupons',
     (err, result) => {
       if(err) throw err;
+      result.sort(function (a, b) { // 오름차순
+        a_dis = calculateDist(lng, lat, a["longitude"], a["latitude"]);
+        b_dis = calculateDist(lng, lat, b["longitude"], b["latitude"]);
+        return a_dis < b_dis ? -1 : a_dis > b_dis ? 1 : 0;
+      });
       return res.status(200).json({
         result
       })
     }
   )
 }
+
 
 exports.createCouponReview = (req, res) => {
   const { coupon_id } = req.params;
