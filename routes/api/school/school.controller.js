@@ -86,17 +86,18 @@ exports.writePost = (req, res) => {
 }
 
 exports.getBoard = (req, res) => {
-	const { class_ } = req.params;
-	sql = 'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id and class=?';
+	const { class_, index } = req.query;
+	sql = 'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id and class=? ';
 	if (class_ == 0) {
-		sql = 'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id'
+		sql = 'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id '
 	}
 	conn.query(
-		sql,
+		sql + `ORDER BY created_at DESC LIMIT 20 OFFSET ${index}`,
 		[req.decoded.school_id, class_],
 		(err, result) => {
 			if (err) throw err;
 			return res.status(200).json({
+				nextIndex: parseInt(index) + result.length,
 				result
 			})
 		}

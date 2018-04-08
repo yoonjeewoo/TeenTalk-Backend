@@ -5,7 +5,7 @@ router.post('', controller.school);
 
 // router.get('', controller.getSchoolList);
 
-router.get('/board/:class_', controller.getBoard);
+router.get('/board', controller.getBoard);
 router.post('/board', controller.writePost);
 router.get('/board/post/:post_id', controller.getPost);
 router.post('/board/like/:post_id', controller.likePost);
