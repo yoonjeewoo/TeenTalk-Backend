@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-// const mysql = require('mysql');
+const mysql = require('mysql');
 const config = require('./config');
-// const conn = mysql.createConnection(config);
+const conn = mysql.createConnection(config);
 
 /* =======================
  LOAD THE CONFIG
@@ -56,7 +56,9 @@ app.set('jwt-secret', config.secret);
 // index page, just for testing
 
 app.use('/api', require('./routes/api'));
-
+setInterval(function () {
+	conn.query('SELECT 1');
+}, 5000);
 // open the server
 app.listen(port, () => {
 	console.log(`Express is running on port ${port}`)
