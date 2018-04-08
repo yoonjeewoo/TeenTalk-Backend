@@ -25,13 +25,26 @@ exports.createCouponReview = (req, res) => {
   const d = new Date();
   d.setUTCHours(d.getUTCHours() + 9);
   conn.query(
-    'INSERT INTO Reviews(user_id, coupon_id, contents, written_at, score) VALUES(?, ?, ?, ?, ?)',
-    [req.decoded._id, coupon_id, contents, d, score],
+    'SELECT * FROM Reviews WHERE coupon_id = ? and user_id = ?',
+    [coupon_id, req.decoded._id],
     (err, result) => {
       if (err) throw err;
-      return res.status(200).json({
-        result
-      })
+      if (result.length == 0) {
+        conn.query(
+          'INSERT INTO Reviews(user_id, coupon_id, contents, written_at, score) VALUES(?, ?, ?, ?, ?)',
+          [req.decoded._id, coupon_id, contents, d, score],
+          (err, result) => {
+            if (err) throw err;
+            return res.status(200).json({
+              result
+            })
+          }
+        )
+      } else {
+        return res.status(406).json({
+          message: "You already wrote a review"
+        })
+      }
     }
   )
 }

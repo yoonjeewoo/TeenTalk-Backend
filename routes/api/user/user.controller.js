@@ -54,3 +54,16 @@ exports.getMyReviews = (req, res) => {
     }
   )
 }
+
+exports.getMyCommentCount = (req, res) => {
+  conn.query(
+    'SELECT count(*) as count FROM Comments WHERE user_id = ?',
+    [req.decoded._id],
+    (err, result) => {
+      if (err) throw err;
+      return res.status(200).json({
+        result
+      })
+    }
+  )
+}

@@ -24,7 +24,7 @@ exports.register = (req, res) => {
 				})
 			} else {
 				const school_id = result[0].id;
-				conn.query('SELECT * from Users WHERE email=?',[email], (err, rows) => {
+				conn.query('SELECT * from Users WHERE email=? or username=?',[email, username], (err, rows) => {
 					if (err) throw err;
 					if (rows.length == 0) {
 						conn.query(
@@ -54,7 +54,7 @@ exports.register = (req, res) => {
 					  	});
 					} else {
 						return res.status(406).json({
-							message: 'user email exists'
+							message: 'user email or nickname exists'
 						})
 					}
 				});
