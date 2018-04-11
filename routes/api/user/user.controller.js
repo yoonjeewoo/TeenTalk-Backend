@@ -14,7 +14,7 @@ exports.getMyAccountInfo = (req, res) => {
       })
     }
   )
-}
+};
 
 exports.getMyPosts = (req, res) => {
   conn.query(
@@ -27,7 +27,7 @@ exports.getMyPosts = (req, res) => {
       })
     }
   )
-}
+};
 
 exports.getMyLikes = (req, res) => {
   conn.query(
@@ -40,7 +40,7 @@ exports.getMyLikes = (req, res) => {
       })
     }
   )
-}
+};
 
 exports.getMyReviews = (req, res) => {
   conn.query(
@@ -53,7 +53,7 @@ exports.getMyReviews = (req, res) => {
       })
     }
   )
-}
+};
 
 exports.getMyCommentCount = (req, res) => {
   conn.query(
@@ -66,4 +66,21 @@ exports.getMyCommentCount = (req, res) => {
       })
     }
   )
-}
+};
+
+exports.updateMyPassword = (req, res) => {
+    const { email, password } = req.body;
+    const encrypted = crypto.createHmac('sha1', config.secret)
+        .update(password)
+        .digest('base64');
+    conn.query(
+        'UPDATE FROM Users WHERE email = ? SET password = ?',
+        [email, encrypted],
+        (err, result) => {
+            if (err) throw err;
+            return res.status(200).json({
+                result
+            })
+        }
+    )
+};
