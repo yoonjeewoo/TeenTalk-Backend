@@ -103,7 +103,7 @@ exports.login = (req, res) => {
 exports.emailVerification = (req, res) => {
 	const { email } = req.body;
 	const random_verify = Math.floor(Math.random() * 1000000) + 1;
-	var smtpTransport = nodemailer.createTransport(smtpPool({
+	let smtpTransport = nodemailer.createTransport(smtpPool({
 		service: 'Gmail',
 		host: 'localhost',
 		port: '465',
@@ -122,20 +122,20 @@ exports.emailVerification = (req, res) => {
 		maxMessages: 10
 	}));
 
-	var mailOpt = {
+	let mailOpt = {
 		from: 'yoonjeewoo@likelion.org',
 		to: email,
 		subject: '틴트 인증번호',
 		html: `<h1>${random_verify}</h1>`
-	}
+	};
 	smtpTransport.sendMail(mailOpt, function (err, res) {
 		if (err) {
 			throw err;
 		} else {
 			smtpTransport.close();	
 		}
-	})
+	});
 	return res.status(200).json({
 		message: random_verify
 	})
-}
+};
