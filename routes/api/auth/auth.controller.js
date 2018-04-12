@@ -10,8 +10,9 @@ const smtpPool = require('nodemailer-smtp-pool');
 exports.register = (req, res) => {
 	const secret = req.app.get('jwt-secret');
 	const { username, email, password, gender, birth, class_, class_num, school_name } = req.body;
+	let encrypted = null;
 	if (password != null) {
-        const encrypted = crypto.createHmac('sha1', config.secret)
+		encrypted = crypto.createHmac('sha1', config.secret)
             .update(password)
             .digest('base64');
     }
