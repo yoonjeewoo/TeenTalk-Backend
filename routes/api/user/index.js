@@ -10,4 +10,5 @@ router.get('/comment/count', controller.getMyCommentCount);
 
 router.put('/password', controller.updateMyPassword);
 
+
 module.exports = router;
