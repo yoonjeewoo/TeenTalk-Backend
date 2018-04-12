@@ -87,35 +87,22 @@ exports.writePost = (req, res) => {
 
 exports.getBoard = (req, res) => {
 	const { class_, index } = req.query;
-	conn.query(
-		'SELECT * FROM Users WHERE school_id = ?',
-		[req.decoded.school_id],
-		(err, result) => {
+    sql = 'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id and class=? ';
+    if (class_ == 0) {
+        sql = 'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id '
+    }
+    conn.query(
+        sql + `ORDER BY created_at DESC LIMIT 20 OFFSET ${index}`,
+        [req.decoded.school_id, class_],
+        (err, result) => {
             if (err) throw err;
-            if (result.length >= 10) {
-                sql = 'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id and class=? ';
-                if (class_ == 0) {
-                    sql = 'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id '
-                }
-                conn.query(
-                    sql + `ORDER BY created_at DESC LIMIT 20 OFFSET ${index}`,
-                    [req.decoded.school_id, class_],
-                    (err, result) => {
-                        if (err) throw err;
-                        return res.status(200).json({
-                            nextIndex: parseInt(index) + result.length,
-                            result
-                        })
-                    }
-                )
-            } else {
-            	return res.status(406).json({
-					message: "Student numbers unsatisfied"
-				})
-			}
-		}
-	);
-}
+            return res.status(200).json({
+                nextIndex: parseInt(index) + result.length,
+                result
+            })
+        }
+    );
+};
 
 exports.getPostPicture = (req, res) => {
 	const { post_id } = req.params;
@@ -229,4 +216,17 @@ exports.postSearch = (req, res) => {
 			})
 		}
 	)
-}
+};
+
+exports.getSchoolCheck = (req, res) => {
+    conn.query(
+        'SELECT * FROM Users WHERE school_id = ?',
+        [req.decoded.school_id],
+        (err, result) => {
+            if (err) throw err;
+            return res.status(200).json({
+				member_cnt: result.length
+			})
+        }
+	);
+};

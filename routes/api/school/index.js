@@ -3,7 +3,7 @@ const controller = require('./school.controller');
 
 router.post('', controller.school);
 
-// router.get('', controller.getSchoolList);
+router.get('/check', controller.getSchoolCheck);
 
 router.get('/board', controller.getBoard);
 router.post('/board', controller.writePost);
