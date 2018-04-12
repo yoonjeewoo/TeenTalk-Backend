@@ -142,3 +142,42 @@ exports.emailVerification = (req, res) => {
 		message: random_verify
 	})
 };
+
+exports.facebookLogin = (req, res) => {
+    const { email, token } = req.body;
+    if (email === undefined || token === undefined) {
+    	return res.status(406).json({
+			message : "login failed"
+		})
+	}
+    const secret = req.app.get('jwt-secret');
+    conn.query(
+        'SELECT * from Users WHERE email=?',
+        [email],
+        (err, result) => {
+            if (err) throw err;
+            if (result.length == 0) {
+                return res.status(404).json({ message: 'login failed'});
+            } else {
+                jwt.sign(
+                    {
+                        _id: result[0].id,
+                        email: result[0].email,
+                        school_id: result[0].school_id
+                    },
+                    secret,
+                    {
+                        expiresIn: '7d',
+                        issuer: 'rebay_admin',
+                        subject: 'userInfo'
+                    }, (err, token) => {
+                        if (err) return res.status(406).json({ message:'login failed' });
+                        return res.status(200).json({
+                            message: 'logged in successfully',
+                            token
+                        });
+                    });
+            }
+        }
+    )
+};
