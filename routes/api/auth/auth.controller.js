@@ -130,11 +130,11 @@ exports.emailVerification = (req, res) => {
 		to: email,
 		subject: '틴트 인증번호',
 		html: `
-			<h1 style="color: #fa615c;">틴트에서 보내드리는 인증번호는[${random_verify}]입니다.<br>
+			<h3>틴트에서 보내드리는 인증번호는[<span style="color: #fa615c;">${random_verify}</span>]입니다.<br>
 			
 			여러분들의 사랑과 관심에, 좋은 컨텐츠와 혜택으로 보답하겠습니다.<br>
 			
-			문의사항은 페이스북,'안산 핫이슈'를 통해 메세지 바랍니다.<br></h1>`
+			문의사항은 페이스북,'안산 핫이슈'를 통해 메세지 바랍니다.<br></h3>`
 	};
 	smtpTransport.sendMail(mailOpt, function (err, res) {
 		if (err) {
