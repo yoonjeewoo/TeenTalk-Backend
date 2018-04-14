@@ -126,7 +126,7 @@ exports.emailVerification = (req, res) => {
 	}));
 
 	let mailOpt = {
-		from: 'tint180505@gmail.com',
+		from: '틴트 고객센터',
 		to: email,
 		subject: '틴트 인증번호',
 		html: `
