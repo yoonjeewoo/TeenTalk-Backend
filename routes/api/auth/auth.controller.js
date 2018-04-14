@@ -118,15 +118,15 @@ exports.emailVerification = (req, res) => {
 
 		//gmail 계정과 암호 
 		auth: {
-			user: 'yoonjeewoo@likelion.org',
-			pass: 'y1081615'
+			user: 'tint180505@gmail.com',
+			pass: 'xlsxmgkwk!!'
 		},
 		maxConnections: 5,
 		maxMessages: 10
 	}));
 
 	let mailOpt = {
-		from: 'yoonjeewoo@likelion.org',
+		from: 'tint180505@gmail.com',
 		to: email,
 		subject: '틴트 인증번호',
 		html: `<h1>${random_verify}</h1>`
