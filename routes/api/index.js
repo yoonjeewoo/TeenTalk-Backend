@@ -23,4 +23,6 @@ router.use('/user', user);
 router.use('/admin', authMiddleware);
 router.use('/admin', admin);
 
+
+
 module.exports = router;
