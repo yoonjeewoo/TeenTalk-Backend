@@ -221,7 +221,7 @@ exports.postSearch = (req, res) => {
 exports.getSchoolCheck = (req, res) => {
 	const { class_, class_num } = req.query;
     conn.query(
-        'SELECT * FROM Users WHERE school_id = ? and class = ? and class_num = ?',
+        'SELECT * FROM Users WHERE school_id = ?',
         [req.decoded.school_id, class_, class_num],
         (err, result) => {
             if (err) throw err;
