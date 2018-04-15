@@ -3,6 +3,8 @@ const mysql = require('mysql');
 const config = require('../../../config');
 const conn = mysql.createConnection(config);
 
+const crypto = require('crypto');
+
 exports.getSchoolList = (req, res) => {
   conn.query(
     'SELECT * FROM Schools',
