@@ -23,8 +23,8 @@ exports.updateMyPassword = (req, res) => {
         .update(password)
         .digest('base64');
     conn.query(
-        'UPDATE FROM Users WHERE email = ? SET password = ?',
-        [email, encrypted],
+        'UPDATE Users SET password = ? WHERE email = ?',
+        [encrypted, email],
         (err, result) => {
             if (err) throw err;
             return res.status(200).json({
