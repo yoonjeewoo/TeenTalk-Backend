@@ -150,7 +150,7 @@ exports.createComment = (req, res) => {
 exports.getCommentList = (req, res) => {
 	const { post_id } = req.params;
 	conn.query(
-		'SELECT Comments.id, content, Comments.school_id, username, created_at FROM Comments join Users on Comments.user_id = Users.id WHERE Comments.post_id = ?',
+		'SELECT Comments.id, content, Comments.user_id, Comments.school_id, username, created_at FROM Comments join Users on Comments.user_id = Users.id WHERE Comments.post_id = ?',
 		[post_id],
 		(err, result) => {
 			if (err) throw err;
@@ -226,8 +226,8 @@ exports.getSchoolCheck = (req, res) => {
         (err, result) => {
             if (err) throw err;
             return res.status(200).json({
-				member_cnt: result.length
-			})
+							member_cnt: result.length
+						})
         }
 	);
 };
