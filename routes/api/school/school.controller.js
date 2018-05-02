@@ -164,15 +164,36 @@ exports.getCommentList = (req, res) => {
 exports.likePost = (req, res) => {
 	const { post_id } = req.params;
 	conn.query(
-		'UPDATE Posts SET like_cnt = like_cnt+1 WHERE id = ?',
-		[post_id],
+		'SELECT * FROM Likes WHERE post_id = ? and user_id = ?',
+		[post_id, req.decoded._id],
 		(err, result) => {
 			if (err) throw err;
-			return res.status(200).json({
-				message: 'successfully liked post'
-			})
+			if (result.length == 0) {
+				conn.query(
+					'UPDATE Posts SET like_cnt = like_cnt+1 WHERE id = ?',
+					[post_id],
+					(err, result) => {
+						if (err) throw err;
+						conn.query(
+							'INSERT INTO Likes(user_id, post_id) VALUES(?, ?)',
+							[req.decoded._id, post_id],
+							(err, result) => {
+								if(err) throw err;
+								return res.status(200).json({
+									message: 'successfully liked post'
+								})
+							}
+						)
+					}
+				)
+			} else {
+				return res.status(406).json({
+					message: 'this user already liked this post'
+				})
+			}
 		}
 	)
+	
 }
 
 exports.updateComment = (req, res) => {
