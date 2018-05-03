@@ -17,7 +17,7 @@ exports.uploadTint = (req, res) => {
         category,
         pic_list
     } = req.body;
-    if (category == 2 or category == 1) {
+    if (category == 2 || category == 1) {
         conn.query(
             'INSERT INTO Tints(title, content, video_id, user_id, like_cnt, category, created_at) VALUES(?, ?, ?, ? ,? ,?, ?)', [title, content, video_id, req.decoded._id, 0, category, d],
             (err, result) => {
@@ -91,6 +91,6 @@ exports.getTintList = (req, res) => {
             }
         )
     } else {
-        
+
     }
 }
