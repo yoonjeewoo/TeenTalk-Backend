@@ -217,16 +217,9 @@ exports.deleteLike = (req, res) => {
 							[post_id],
 							(err, result) => {
 								if (err) throw err;
-								conn.query(
-									'DELETE FROM Posts WHERE id = ? and user_id = ?',
-									[post_id, req.decoded._id],
-									(err, result) => {
-										if(err) throw err;
-										return res.status(200).json({
-											message: 'successfully unliked post'
-										})
-									}
-								)
+								return res.status(200).json({
+									message: 'successfully unliked post'
+								})
 							}
 						)
 					}
