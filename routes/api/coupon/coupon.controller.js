@@ -179,7 +179,7 @@ exports.createCoupon = (req, res) => {
       picandtag_input(result, pic_list);
     }
   )
-}
+};
 
 exports.couponSearch = (req, res) => {
   const { q } = req.params;
@@ -192,5 +192,5 @@ exports.couponSearch = (req, res) => {
       })
     }
   )
-}
+};
 

@@ -32,7 +32,7 @@ exports.school = (req, res) => {
 }
 
 exports.writePost = (req, res) => {
-	const { pic_list, content } = req.body;
+	const { pic_list, content, title } = req.body;
 	console.log(pic_list);
 	const d = new Date();
 	d.setUTCHours(d.getUTCHours());
@@ -76,8 +76,8 @@ exports.writePost = (req, res) => {
 		})
 	}
 	conn.query(
-		'INSERT INTO Posts(content, school_id, user_id, created_at) VALUES (?, ?, ?, ?)',
-		[content, req.decoded.school_id, req.decoded._id, d],
+		'INSERT INTO Posts(title, content, school_id, user_id, created_at) VALUES (?, ?, ?, ?, ?)',
+		[title, content, req.decoded.school_id, req.decoded._id, d],
 		(err, result) => {
 			if (err) throw err;
 			picandtag_input(result, pic_list);
