@@ -2,6 +2,9 @@ const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
 const config = require('../../../config');
 const conn = mysql.createConnection(config);
+const AWS = require('aws-sdk');
+AWS.config.region = 'ap-northeast-2';
+const s3 = new AWS.S3();
 
 exports.uploadTint = (req, res) => {
     const d = new Date();
