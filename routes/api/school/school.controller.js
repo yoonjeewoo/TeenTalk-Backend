@@ -193,7 +193,67 @@ exports.likePost = (req, res) => {
 			}
 		}
 	)
-	
+}
+
+exports.deleteLike = (req, res) => {
+	const { post_id } = req.params;
+	conn.query(
+		'SELECT * FROM Likes WHERE post_id = ? and user_id = ?',
+		[post_id, req.decoded._id],
+		(err, result) => {
+			if (err) throw err;
+			if (result.length == 0) {
+				return res.status(406).json({
+					message: 'this user did not like this post'
+				})
+			} else {
+				conn.query(
+					'DELETE FROM Likes WHERE post_id = ? and user_id = ?',
+					[post_id, req.decoded._id],
+					(err, result) => {
+						if(err) throw err;
+						conn.query(
+							'UPDATE Posts SET like_cnt = like_cnt-1 WHERE id = ?',
+							[post_id],
+							(err, result) => {
+								if (err) throw err;
+								conn.query(
+									'DELETE FROM Posts WHERE id = ? and user_id = ?',
+									[post_id, req.decoded._id],
+									(err, result) => {
+										if(err) throw err;
+										return res.status(200).json({
+											message: 'successfully unliked post'
+										})
+									}
+								)
+							}
+						)
+					}
+				)
+			}
+		}
+	)
+}
+
+exports.likePostCheck = (req, res) => {
+	const { post_id } = req.params;
+	conn.query(
+		'SELECT * FROM Likes WHERE post_id = ? and user_id = ?',
+		[post_id, req.decoded._id],
+		(err, result) => {
+			if (err) throw err;
+			if (result.length == 0) {
+				return res.status(200).json({
+					message: 'okay'
+				});
+			} else {
+				return res.status(406).json({
+					message: 'this user already liked this post'
+				});
+			}
+		}
+	)
 }
 
 exports.updateComment = (req, res) => {
