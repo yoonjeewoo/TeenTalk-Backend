@@ -7,10 +7,6 @@ router.get('/check', controller.getSchoolCheck);
 
 router.get('/board', controller.getBoard);
 router.post('/board', controller.writePost);
-
-router.post('/tintcast', controller.writeTint);
-router.post('/event', controller.writeEvent);
-
 router.get('/board/post/:post_id', controller.getPost);
 router.post('/board/like/:post_id', controller.likePost);
 router.delete('/board/like/:post_id', controller.deleteLike);
