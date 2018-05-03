@@ -114,3 +114,90 @@ exports.getTintImage = (req, res) => {
         }
     )
 }
+
+exports.likeTint = (req, res) => {
+    const {
+        tint_id
+    } = req.params;
+    conn.query(
+        'SELECT * FROM Tint_Likes WHERE tint_id = ? and user_id = ?', [tint_id, req.decoded._id],
+        (err, result) => {
+            if (err) throw err;
+            if (result.length == 0) {
+                conn.query(
+                    'UPDATE Tints SET like_cnt = like_cnt+1 WHERE id = ?', [tint_id],
+                    (err, result) => {
+                        if (err) throw err;
+                        conn.query(
+                            'INSERT INTO Tint_Likes(user_id, tint_id) VALUES(?, ?)', [req.decoded._id, tint_id],
+                            (err, result) => {
+                                if (err) throw err;
+                                return res.status(200).json({
+                                    message: 'successfully liked post'
+                                })
+                            }
+                        )
+                    }
+                )
+            } else {
+                return res.status(406).json({
+                    message: 'this user already liked this post'
+                })
+            }
+        }
+    )
+}
+
+exports.unlikeTint = (req, res) => {
+    const {
+        tint_id
+    } = req.params;
+    conn.query(
+        'SELECT * FROM Tint_Likes WHERE tint_id = ? and user_id = ?', [tint_id, req.decoded._id],
+        (err, result) => {
+            if (err) throw err;
+            if (result.length == 0) {
+                return res.status(406).json({
+                    message: 'this user did not like this post'
+                })
+            } else {
+                conn.query(
+                    'DELETE FROM Tint_Likes WHERE tint_id = ? and user_id = ?', [tint_id, req.decoded._id],
+                    (err, result) => {
+                        if (err) throw err;
+                        conn.query(
+                            'UPDATE Posts SET like_cnt = like_cnt-1 WHERE id = ?', [tint_id],
+                            (err, result) => {
+                                if (err) throw err;
+                                return res.status(200).json({
+                                    message: 'successfully unliked post'
+                                })
+                            }
+                        )
+                    }
+                )
+            }
+        }
+    )
+}
+
+exports.likeCheck = (req, res) => {
+    const {
+        tint_id
+    } = req.params;
+    conn.query(
+        'SELECT * FROM Tint_Likes WHERE tint_id = ? and user_id = ?', [tint_id, req.decoded._id],
+        (err, result) => {
+            if (err) throw err;
+            if (result.length == 0) {
+                return res.status(200).json({
+                    message: 'okay'
+                });
+            } else {
+                return res.status(406).json({
+                    message: 'this user already liked this post'
+                });
+            }
+        }
+    )
+}
