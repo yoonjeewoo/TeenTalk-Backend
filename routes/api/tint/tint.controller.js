@@ -91,6 +91,26 @@ exports.getTintList = (req, res) => {
             }
         )
     } else {
-
+        conn.query(
+            'SELECT * FROM Tints WHERE category = 3',
+            (err, result) => {
+                if (err) throw err;
+                return res.status(200).json({
+                    result
+                })
+            }
+        )
     }
+}
+
+exports.getTintImage = (req, res) => {
+    conn.query(
+        'SELECT * FROM Tint_Images WHERE tint_id=?', [req.query.tint_id],
+        (err, result) => {
+            if (err) throw err;
+            return res.status(200).json({
+                result
+            })
+        }
+    )
 }
