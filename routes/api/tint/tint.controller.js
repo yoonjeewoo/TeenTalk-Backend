@@ -227,7 +227,7 @@ exports.getTintCommentList = (req, res) => {
         tint_id
     } = req.params;
     conn.query(
-        'SELECT * FROM Tint_Comments WHERE tint_id = ?',
+        'SELECT * FROM Tint_Comments JOIN Users ON Tint_Comments.user_id = Users.id WHERE tint_id = ?',
         [tint_id],
         (err, result) => {
             return res.status(200).json({
