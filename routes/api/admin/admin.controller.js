@@ -6,7 +6,7 @@ const conn = mysql.createConnection(config);
 exports.homeSlideImage = (req, res) => {
   const { pic_list } = req.body;
 
-  let pic_input = (result, pic, index) => {
+  let pic_input = (pic) => {
     return new Promise((resolve, reject) => {
       const d = new Date();
       d.setUTCHours(d.getUTCHours() + 9);
@@ -36,13 +36,14 @@ exports.homeSlideImage = (req, res) => {
     })
   }
 
-  async function picandtag_input(result, pic_list) {
-    pic_list.forEach(async (pic, index) => {
-      await pic_input(result, pic, index);
+  async function picandtag_input(pic_list) {
+    pic_list.forEach(async (pic) => {
+      await pic_input(pic);
     });
     return res.status(200).json({
-      item_id: result.insertId
+      // item_id: result.insertId
+      message: 'done'
     })
   }
-  picandtag_input(result, pic_list);
+  picandtag_input(pic_list);
 }
