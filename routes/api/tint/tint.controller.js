@@ -82,7 +82,7 @@ exports.uploadTint = (req, res) => {
 exports.getTintList = (req, res) => {
     if (req.query.category == 2 || req.query.category == 1) {
         conn.query(
-            'SELECT Tints.id Tints.title, Tints.content, Tints.video_id, Users.id, Users.username, Tints.like_cnt, Tints.create_at FROM Tints WHERE Tints.category = ?', [req.query.category],
+            'SELECT Tints.id, Tints.title, Tints.content, Tints.video_id, Users.id, Users.username, Tints.like_cnt, Tints.create_at FROM Tints WHERE Tints.category = ?', [req.query.category],
             (err, result) => {
                 if (err) throw err;
                 return res.status(200).json({
