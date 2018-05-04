@@ -9,7 +9,7 @@ const s3 = new AWS.S3();
 const crypto = require("crypto");
 exports.uploadTint = (req, res) => {
     const d = new Date();
-    d.setUTCHours(d.getUTCHours());
+    d.setUTCHours(d.getUTCHours() + 9);
     const {
         title,
         content,
@@ -29,7 +29,7 @@ exports.uploadTint = (req, res) => {
         )
     } else {
         const d = new Date();
-        d.setUTCHours(d.getUTCHours());
+        d.setUTCHours(d.getUTCHours() + 9);
 
         let pic_input = (result, pic) => {
             return new Promise((resolve, reject) => {
@@ -82,7 +82,7 @@ exports.uploadTint = (req, res) => {
 exports.getTintList = (req, res) => {
     if (req.query.category == 2 || req.query.category == 1) {
         conn.query(
-            'SELECT Tints.title, Tints.content, Tints.video_id, Users.id, Users.username, Tints.like_cnt FROM Tints JOIN Users on Tints.user_id = Users.id WHERE Tints.category = ?', [req.query.category],
+            'SELECT Tints.id Tints.title, Tints.content, Tints.video_id, Users.id, Users.username, Tints.like_cnt, Tints.create_at FROM Tints WHERE Tints.category = ?', [req.query.category],
             (err, result) => {
                 if (err) throw err;
                 return res.status(200).json({

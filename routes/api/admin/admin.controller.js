@@ -5,8 +5,6 @@ const conn = mysql.createConnection(config);
 
 exports.homeSlideImage = (req, res) => {
   const { pic_list } = req.body;
-  const d = new Date();
-  d.setUTCHours(d.getUTCHours());
 
   let pic_input = (result, pic, index) => {
     return new Promise((resolve, reject) => {
