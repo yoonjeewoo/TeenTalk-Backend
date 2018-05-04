@@ -3,6 +3,9 @@ const mysql = require('mysql');
 const config = require('../../../config');
 const conn = mysql.createConnection(config);
 const crypto = require("crypto");
+const AWS = require('aws-sdk');
+AWS.config.region = 'ap-northeast-2';
+const s3 = new AWS.S3();
 
 exports.homeSlideImage = (req, res) => {
   const { pic_list } = req.body;
