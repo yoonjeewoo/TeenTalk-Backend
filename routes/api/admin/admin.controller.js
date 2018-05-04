@@ -27,7 +27,7 @@ exports.homeSlideImage = (req, res) => {
           if (err) reject(err);
         } else {
           // console.log(response)
-          conn.query('INSERT INTO Home_images(img_url) VALUES(?)', [picUrl], (err) => {
+          conn.query('INSERT INTO Home_Images(img_url) VALUES(?)', [picUrl], (err) => {
             if (err) reject(err);
             resolve();
           })
