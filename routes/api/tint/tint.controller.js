@@ -201,3 +201,53 @@ exports.likeCheck = (req, res) => {
         }
     )
 }
+
+exports.createTintComment = (req, res) => {
+    const d = new Date();
+    d.setUTCHours(d.getUTCHours() + 9);
+    const {
+        tint_id
+    } = req.params;
+    const {
+        content
+    } = req.body;
+    conn.query(
+        'INSERT INTO Tint_Comments(content, user_id, tint_id, created_at) VALUES (?, ?, ?, ?)', [content, req.decoded._id, tint_id, d],
+        (err, result) => {
+            if (err) throw err;
+            return res.status(200).json({
+                message: 'done'
+            })
+        }
+    )
+}
+
+exports.getTintCommentList = (req, res) => {
+    const {
+        tint_id
+    } = req.params;
+    conn.query(
+        'SELECT * FROM Tint_Comments WHERE tint_id = ?',
+        [tint_id],
+        (err, result) => {
+            return res.status(200).json({
+                result
+            })
+        }
+    )
+}
+
+exports.deleteTintComment = (req, res) => {
+    const {
+        comment_id
+    } = req.params;
+    conn.query(
+        'DELETE FROM Tint_Comments WHERE id = ?',
+        [comment_id],
+        (err, result) => {
+            return res.status(200).json({
+                message: 'deleted'
+            })
+        }
+    )
+}
