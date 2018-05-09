@@ -6,6 +6,7 @@ const authMiddleware = (req, res, next) => {
 
 	// token does not exist
 	if (!token) {
+		console.log(token)
 		return res.status(403).json({
 			success: false,
 			message: 'not logged in'
