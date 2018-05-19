@@ -130,7 +130,7 @@ exports.getCouponReviewList = (req, res) => {
 }
 
 exports.createCoupon = (req, res) => {
-  const { pic_list, title, sub_title, location, address_detail, tel, work_time, coupon_title, closed, longitude, latitude } = req.body;
+  const { is_open, type, pic_list, title, sub_title, location, address_detail, tel, work_time, coupon_title, closed, longitude, latitude } = req.body;
 
   let pic_input = (result, pic, index) => {
     return new Promise((resolve, reject) => {
@@ -172,8 +172,8 @@ exports.createCoupon = (req, res) => {
   }
 
   conn.query(
-    'INSERT INTO Coupons(title, sub_title, location, address_detail, tel, work_time, coupon_title, closed, longitude, latitude) VALUES (?,?,?,?,?,?,?,?,?,?)',
-    [title, sub_title, location, address_detail, tel, work_time, coupon_title, closed, longitude, latitude],
+    'INSERT INTO Coupons(is_open, type, title, sub_title, location, address_detail, tel, work_time, coupon_title, closed, longitude, latitude) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+    [is_open, type, title, sub_title, location, address_detail, tel, work_time, coupon_title, closed, longitude, latitude],
     (err, result) => {
       if (err) throw err;
       picandtag_input(result, pic_list);
