@@ -88,11 +88,17 @@ exports.deleteCouponReview = (req, res) => {
 
 exports.getCouponByType = (req, res) => {
   const { type } = req.params;
+  const { lng, lat } = req.query;
   conn.query(
     'SELECT * FROM Coupons WHERE type = ?',
     [type],
     (err, result) => {
       if (err) throw err;
+      result.sort(function (a, b) { // 오름차순
+        a_dis = calculateDist(lng, lat, a["longitude"], a["latitude"]);
+        b_dis = calculateDist(lng, lat, b["longitude"], b["latitude"]);
+        return a_dis < b_dis ? -1 : a_dis > b_dis ? 1 : 0;
+      });
       return res.status(200).json({
         result
       })
