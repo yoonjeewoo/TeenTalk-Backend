@@ -88,11 +88,17 @@ exports.deleteCouponReview = (req, res) => {
 
 exports.getCouponByType = (req, res) => {
   const { type } = req.params;
+  const { lng, lat } = req.query;
   conn.query(
     'SELECT * FROM Coupons WHERE type = ?',
     [type],
     (err, result) => {
       if (err) throw err;
+      result.sort(function (a, b) { // 오름차순
+        a_dis = calculateDist(lng, lat, a["longitude"], a["latitude"]);
+        b_dis = calculateDist(lng, lat, b["longitude"], b["latitude"]);
+        return a_dis < b_dis ? -1 : a_dis > b_dis ? 1 : 0;
+      });
       return res.status(200).json({
         result
       })
@@ -130,7 +136,7 @@ exports.getCouponReviewList = (req, res) => {
 }
 
 exports.createCoupon = (req, res) => {
-  const { pic_list, title, sub_title, location, address_detail, tel, work_time, coupon_title, closed, longitude, latitude } = req.body;
+  const { is_open, type, pic_list, title, sub_title, location, address_detail, tel, work_time, coupon_title, closed, longitude, latitude } = req.body;
 
   let pic_input = (result, pic, index) => {
     return new Promise((resolve, reject) => {
@@ -172,8 +178,8 @@ exports.createCoupon = (req, res) => {
   }
 
   conn.query(
-    'INSERT INTO Coupons(title, sub_title, location, address_detail, tel, work_time, coupon_title, closed, longitude, latitude) VALUES (?,?,?,?,?,?,?,?,?,?)',
-    [title, sub_title, location, address_detail, tel, work_time, coupon_title, closed, longitude, latitude],
+    'INSERT INTO Coupons(is_open, type, title, sub_title, location, address_detail, tel, work_time, coupon_title, closed, longitude, latitude) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+    [is_open, type, title, sub_title, location, address_detail, tel, work_time, coupon_title, closed, longitude, latitude],
     (err, result) => {
       if (err) throw err;
       picandtag_input(result, pic_list);
