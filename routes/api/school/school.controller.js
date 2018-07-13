@@ -112,7 +112,10 @@ exports.getBoardAll = (req, res) => {
     const {
         index
     } = req.query;
-    sql = 'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts ';
+    sql = 'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts, Users WHERE Posts.user_id = Users.id ';
+    // if (class_ == 0) {
+    //     sql = 'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts, Users WHERE Posts.user_id = Users.id '
+    // }
     conn.query(
         sql + `ORDER BY created_at DESC LIMIT 20 OFFSET ${index}`,
         (err, result) => {
