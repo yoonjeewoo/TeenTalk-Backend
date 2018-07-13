@@ -110,7 +110,6 @@ exports.getBoard = (req, res) => {
 
 exports.getBoardAll = (req, res) => {
     const {
-        class_,
         index
     } = req.query;
     sql = 'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts ';
@@ -118,7 +117,7 @@ exports.getBoardAll = (req, res) => {
         sql = 'SELECT Posts.id, content, username, like_cnt, created_at FROM Posts, Users WHERE Posts.school_id = ? and Posts.user_id = Users.id '
     }
     conn.query(
-        sql + `ORDER BY created_at DESC LIMIT 20 OFFSET ${index}`, [req.decoded.school_id, class_],
+        sql + `ORDER BY created_at DESC LIMIT 20 OFFSET ${index}`,
         (err, result) => {
             if (err) throw err;
             return res.status(200).json({
